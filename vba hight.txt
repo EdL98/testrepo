@@ -1,0 +1,38 @@
+Sub GoToSheetAndHighlightCell()
+    ' Define variables for the target sheet name and cell address
+    Dim targetSheetName As String
+    Dim targetCellAddress As String
+    Dim targetCell As Range
+    
+    ' ***MODIFY THESE VALUES***
+    targetSheetName = "Sheet2" ' Replace with your target sheet name
+    targetCellAddress = "C5"   ' Replace with your target cell address (e.g., "A1", "F10")
+    
+    ' Check if the target sheet exists
+    On Error Resume Next
+    Set targetCell = ThisWorkbook.Sheets(targetSheetName).Range(targetCellAddress)
+    On Error GoTo 0
+    
+    If Not targetCell Is Nothing Then
+        ' Deactivate Screen Updating to prevent flickering
+        Application.ScreenUpdating = False
+        
+        ' 1. Redirect to the different sheet
+        targetCell.Parent.Activate
+        
+        ' 2. Highlight the relevant cell
+        targetCell.Select
+        
+        ' Apply a temporary highlight color (e.g., yellow)
+        Selection.Interior.Color = RGB(255, 255, 0) ' Yellow
+        
+        ' Optional: Re-activate screen updating
+        Application.ScreenUpdating = True
+        
+        ' Optional: Add a pause so the user can see the highlight before potentially running other code
+        ' Application.Wait (Now + TimeValue("0:00:02")) 
+        
+    Else
+        MsgBox "The target sheet or cell could not be found.", vbExclamation
+    End If
+End Sub
